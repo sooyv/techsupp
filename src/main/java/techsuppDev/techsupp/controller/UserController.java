@@ -1,12 +1,13 @@
 package techsuppDev.techsupp.controller;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.ModelAndViewDefiningException;
 import techsuppDev.techsupp.controller.form.UserCreateFrom;
@@ -23,9 +24,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
+import java.util.HashMap;
+import java.util.Map;
 
 
 //@Controller
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 public class UserController {
@@ -47,21 +51,48 @@ public class UserController {
     }
 
     @PostMapping("/signUp")
-    public String signUpSave(UserCreateFrom userCreateFrom, BindingResult bindingResult) {
-        if (bindingResult.hasErrors()) {
-            System.out.println("로그인 실패");
-            return "/signUp";
-        }
-        if (!userCreateFrom.getPassword1().equals(userCreateFrom.getPassword2())) {
-            bindingResult.rejectValue("password2", "passwordInCorrect",
-                    "2개의 패스워드가 일치하지 않습니다.");
-            System.out.println("패스워드 문제");
-            return "/singUp";
-        }
-        userService.createUser(userCreateFrom.getUserName(), userCreateFrom.getEmail(),
-                userCreateFrom.getPassword1(), userCreateFrom.getUserPhonenum());
-        return "/main";
+    public ResponseEntity<String> signUpUser(@RequestParam("userName") String userName,
+                                               @RequestParam("email") String email,
+                                               @RequestParam("password") String password,
+                                               @RequestParam("userPhone") String userPhone) {
+        System.out.println(userName);
+        System.out.println(email);
+        System.out.println(password);
+        System.out.println(userPhone);
+
+    User user = new User();
+    user.setUserName(userName);
+    user.setEmail(email);
+    user.setPassword(password);
+    user.setUserPhone(userPhone);
+
+    userService.createUser(user);
+
+    return new ResponseEntity<>("Successfully Registered", HttpStatus.OK);
     }
+
+
+//    @PostMapping("/signUp")
+//    public String signUpSave(UserCreateFrom userCreateFrom, BindingResult bindingResult) {
+//        if (bindingResult.hasErrors()) {
+//            System.out.println("로그인 실패");
+//            return "/signUp";
+//        }
+//        if (!userCreateFrom.getPassword1().equals(userCreateFrom.getPassword2())) {
+//            bindingResult.rejectValue("password2", "passwordInCorrect",
+//                    "2개의 패스워드가 일치하지 않습니다.");
+//            System.out.println("패스워드 문제");
+//            return "/singUp";
+//        }
+//        userService.createUser(userCreateFrom.getUserName(), userCreateFrom.getEmail(),
+//                userCreateFrom.getPassword1(), userCreateFrom.getUserPhonenum());
+//        return "/main";
+//    }
+
+
+
+
+
 
 
     // 어드민 페이지
@@ -69,8 +100,6 @@ public class UserController {
     public String admin() {
         return "/admin";
     }
-
-
 
 
     @GetMapping("test")
@@ -92,7 +121,6 @@ public class UserController {
 
     }
 
-    // 네이버 로그인
     @GetMapping("navercallback")
     public void naverCallBack(HttpServletRequest request, HttpServletResponse response) throws UnsupportedEncodingException {
         String clientId = "";//애플리케이션 클라이언트 아이디값";

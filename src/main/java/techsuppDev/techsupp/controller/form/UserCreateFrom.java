@@ -28,7 +28,7 @@ public class UserCreateFrom {
     private String password2;
 
     @NotEmpty(message = "핸드폰 번호 입력은 필수입력항목입니다.")
-    private String userPhonenum;
+    private String userPhone;
 
 //    @Column(nullable = false)
 //    private String userName;

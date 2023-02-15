@@ -1,4 +1,4 @@
-console.log("연결돼ㅏㅏ따")
+console.log("연결완료")
 
 const form = document.getElementById("signUpForm");
 console.log(form);
@@ -6,18 +6,18 @@ const usernameInput = document.getElementById("userName");
 const emailInput = document.getElementById("email");
 const passwordInput = document.getElementById("password");
 const checkPasswordInput = document.getElementById("checkPassword");
-const PhoneNumberInput = document.getElementById("userPhoneNum");
+const userPhoneInput = document.getElementById("userPhone");
 
 form.addEventListener("submit", event => {
   event.preventDefault();
 
-  const username = usernameInput.value;
+  const userName = usernameInput.value;
   const email = emailInput.value;
   const password = passwordInput.value;
   const checkPassword = checkPasswordInput.value;
-  const userPhoneNum = PhoneNumberInput.value;
+  const userPhone = userPhoneInput.value;
 
-  if (!username || !email || !password || !checkPassword || !userPhoneNum) {
+  if (!userName || !email || !password || !checkPassword || !userPhone) {
     alert("모든 항목을 작성해주세요.");
     return;
   }
@@ -28,8 +28,8 @@ form.addEventListener("submit", event => {
     return;
   }
 
-  alert(`Sign-up successful!\nUsername: ${username}\nEmail: ${email}\nPhone: ${userPhoneNum}`);
-});
+  alert(`Sign-up successful!\nUsername: ${userName}\nEmail: ${email}\nPhone: ${userPhone}`);
+
 
 //var $email = $("#email");
 //// 아이디 정규식
@@ -82,23 +82,22 @@ form.addEventListener("submit", event => {
 //		});
 
 $(document).ready(function () {
-  $("signUpForm").click(function (e) {
-    e.preventDefault();
-    const username = $("#userName").val();
+    const userName = $("#userName").val();
     const email = $("#email").val();
     const password = $("#password").val();
     const checkPassword = $("#checkPassword").val();
-    const PhoneNumber = $("#PhoneNumber").val();
+    const PhoneNumber = $("#userPhone").val();
+    console.log("ajax직전");
     $.ajax({
-      type: "POST",
-      url: "/signup",
+      type: 'POST',
+      url: "/signUp",
       data: {
-        username: userName,
+        userName: userName,
         email: email,
         password: password,
         checkPassword: checkPassword,
-        PhoneNumber : PhoneNumber
-      },
+        userPhone : userPhone
+        },
       success: function (response) {
         console.log(response);
       },

@@ -29,6 +29,6 @@ public class User {
     private String password;
 
     @Column(nullable = false)
-    private String userPhonenum;
+    private String userPhone;
 
 }
