@@ -4,28 +4,21 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.ModelAndViewDefiningException;
-import techsuppDev.techsupp.controller.form.UserCreateFrom;
 import techsuppDev.techsupp.domain.User;
 import techsuppDev.techsupp.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
 import java.io.*;
 import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.security.SecureRandom;
-import java.util.HashMap;
-import java.util.Map;
 
 
 //@Controller
@@ -50,15 +43,18 @@ public class UserController {
         return mav;
     }
 
-    @PostMapping("/signUp")
+    @PostMapping("user/signUp")
     public ResponseEntity<String> signUpUser(@RequestParam("userName") String userName,
                                                @RequestParam("email") String email,
                                                @RequestParam("password") String password,
                                                @RequestParam("userPhone") String userPhone) {
-        System.out.println(userName);
-        System.out.println(email);
-        System.out.println(password);
-        System.out.println(userPhone);
+    System.out.println(userName);
+    System.out.println(email);
+    System.out.println(password);
+    System.out.println(userPhone);
+
+
+    // password와 checkpassword 를 같이 가져와서 비교?
 
     User user = new User();
     user.setUserName(userName);
@@ -85,7 +81,7 @@ public class UserController {
 //            return "/singUp";
 //        }
 //        userService.createUser(userCreateFrom.getUserName(), userCreateFrom.getEmail(),
-//                userCreateFrom.getPassword1(), userCreateFrom.getUserPhonenum());
+//                userCreateFrom.getPassword1(), userCreateFrom.getUserPhone());
 //        return "/main";
 //    }
 
